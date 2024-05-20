@@ -1,0 +1,66 @@
+﻿@model AccountIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Account Overview</h1>
+<h4>Current Total Balance: @Model.totalBalances</h4>
+<h5>Number of Accounts: @Model.numOfAccounts | Number of Banks: @Model.numOfBanks</h5>
+
+<p>
+    <a asp-action="Create"><button class="btn btn-success">Add New Account</button></a>
+</p>
+<div overflow:auto;">
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.accounts.FirstOrDefault().BankName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.accounts.FirstOrDefault().Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.accounts.FirstOrDefault().CurrentBalance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.accounts.FirstOrDefault().Owner)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@for (int i = 0; i < Model.accounts.Count(); i++) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.accounts.ElementAt(i).BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.accounts.ElementAt(i).Type)
+            </td>
+                @if (Model.accounts.ElementAt(i).CurrentBalance > 0)
+                {
+                    <td>
+                        <span style="color:Green">@Html.DisplayFor(modelItem => Model.currentBalances[i])</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span style="color:Red">@Html.DisplayFor(modelItem => Model.currentBalances[i])</span>
+                    </td>
+                }
+            <td>
+                @Html.DisplayFor(modelItem => Model.accounts.ElementAt(i).Owner)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@Model.accounts.ElementAt(i).Id"><button class="btn btn-primary">Edit</button></a> |
+                    <a asp-action="Delete" asp-route-id="@Model.accounts.ElementAt(i).Id"><button class="btn btn-danger">Delete</button></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
